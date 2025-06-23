@@ -37,7 +37,7 @@ else:
 
 diff_percent = round((difference / yesterday_closing_price) * 100)
 
-if abs(diff_percent) > 5:
+if abs(diff_percent) > 1:
     news_params = {
         "apiKey": NEWS_API_KEY,
         "q": COMPANY_NAME
@@ -49,7 +49,7 @@ if abs(diff_percent) > 5:
     formatted_articles = [f"{STOCK_NAME}: {up_down}{diff_percent}%\nHeadline: {article['title']}. \nBrief: {article['description']}" for article in three_articles]
 
     for article in formatted_articles:
-        with smtplib.SMTP("smtp.gmail.com") as connection:
+        with smtplib.SMTP("smtp.gmail.com", 587) as connection:
             connection.starttls()
             connection.login(MY_EMAIL, MY_PASSWORD)
             connection.sendmail(
